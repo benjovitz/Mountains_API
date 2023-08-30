@@ -1,0 +1,7 @@
+HTTP METHOD                 ENDPOINT
+GET                         /mountains
+GET                         /mountains/:id
+POST                        /mountains
+PATCH                       /mountains/:id
+PUT                         /mountains/:id
+DELETE                      /mountains/:id
