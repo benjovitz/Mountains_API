@@ -5,16 +5,19 @@ const app = express()
 app.use(express.json())
 
 app.get("/mountains", (req, res) => {
+
    res.send(mountains)
 })
 
 app.get("/mountains/:id", (req, res) => {
-    const mountain = findMountain(Number(req.params.id))
-    console.log(mountain)
-    res.send(mountain)
-})
 
+    const mountain = findMountain(Number(req.params.id))
+    
+    mountain ? res.send(mountain) : res.sendStatus(404)
+})
+/*
 app.post("/mountains", (req, res) => {
+
     const newMountain = req.body
 
     const lastId = mountains[mountains.length - 1].id
@@ -55,11 +58,14 @@ app.delete("/mountains/:id", (req, res) => {
     res.sendStatus(200)
     
 })
-
+*/
 
 function findMountain(id){
+
     if(!isNaN(id)){
+
     const mountain = mountains.find(m => m.id === id)
+
     return mountain
     } 
 }
