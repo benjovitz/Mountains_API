@@ -15,51 +15,6 @@ app.get("/mountains/:id", (req, res) => {
     
     mountain ? res.send(mountain) : res.sendStatus(404)
 })
-/*
-app.post("/mountains", (req, res) => {
-
-    const newMountain = req.body
-
-    const lastId = mountains[mountains.length - 1].id
-    newMountain.id = lastId + 1
-    mountains.push(newMountain)
-    res.sendStatus(200)
-})
-
-app.patch("/mountains/:id", (req, res) => {
-    const body = req.body
-    const mountainToUpdate = findMountain(Number(req.params.id))
-
-    if(mountainToUpdate){
-
-        mountainToUpdate.name = body?.name ?? mountainToUpdate.name;
-        mountainToUpdate.elevation_meters = body?.elevation_meters ?? mountainToUpdate.elevation_meters;
-        mountainToUpdate.latitude = body?.latitude ?? mountainToUpdate.latitude;
-        mountainToUpdate.longitude = body?.longitude ?? mountainToUpdate.longitude;
-        mountainToUpdate.description = body?.description ?? mountainToUpdate.description;
-
-        res.sendStatus(200)
-    } else {
-
-        res.sendStatus(404)
-    }
-
-
-})
-
-app.put("/mountains/:id", (req, res) => {
-
-})
-
-app.delete("/mountains/:id", (req, res) => {
-    const mountainToDelete = findMountain(Number(req.params.id))
-
-    mountainToDelete ? mountains.delete(mountainToDelete) : res.sendStatus(404) 
-    
-    res.sendStatus(200)
-    
-})
-*/
 
 function findMountain(id){
 
