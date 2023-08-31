@@ -51,7 +51,8 @@ app.put("/mountains/:id", (req, res) => {
 app.delete("/mountains/:id", (req, res) => {
     const mountainToDelete = findMountain(Number(req.params.id))
 
-    mountains.delete(mountainToDelete)
+    mountainToDelete ? mountains.delete(mountainToDelete) : res.sendStatus(404) 
+    
     res.sendStatus(200)
     
 })
