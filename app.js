@@ -6,21 +6,21 @@ app.use(express.json())
 
 app.get("/mountains", (req, res) => {
 
-   res.send(mountains)
+   res.send({data: mountains})
 })
 
 app.get("/mountains/:id", (req, res) => {
 
     const mountain = findMountain(Number(req.params.id))
     
-    mountain ? res.send(mountain) : res.sendStatus(404)
+    mountain ? res.send({data: mountain}) : res.sendStatus(404)
 })
 
 function findMountain(id){
 
     if(!isNaN(id)){
 
-    const mountain = mountains.find(m => m.id === id)
+    const mountain = mountains.find((mountain) => mountain.id === id)
 
     return mountain
     } 
