@@ -1,19 +1,101 @@
 const express = require("express")
-
-
 const app = express()
+
 app.use(express.json())
 
 app.get("/mountains", (req, res) => {
-
    res.send({data: mountains})
 })
+
 
 app.get("/mountains/:id", (req, res) => {
 
     const mountain = findMountain(Number(req.params.id))
     
     mountain ? res.send({data: mountain}) : res.sendStatus(404)
+})
+ 
+app.post("/mountains", (req, res) => {
+
+  const body = req.body
+
+  const newMountain = {}
+
+  if(checkFullBody(body)){
+    const lastId = mountains[mountains.length - 1].id
+
+    newMountain.id = lastId + 1
+    newMountain.name = body.name
+    newMountain.elevation_meters = body.elevation_meters
+    newMountain.latitude = body.latitude
+    newMountain.longitude = body.longitude
+    newMountain.description = body.description
+
+    mountains.push(newMountain)
+
+    res.sendStatus(201)
+  } else {
+    res.status(406).send({message: "Need a full body"})
+  }
+ 
+  
+})
+
+app.patch("/mountains/:id", (req, res) => {
+  const body = req.body
+  const mountainToUpdate = findMountain(Number(req.params.id))
+
+  if(mountainToUpdate){
+
+      mountainToUpdate.name = body?.name ?? mountainToUpdate.name;
+      mountainToUpdate.elevation_meters = body?.elevation_meters ?? mountainToUpdate.elevation_meters;
+      mountainToUpdate.latitude = body?.latitude ?? mountainToUpdate.latitude;
+      mountainToUpdate.longitude = body?.longitude ?? mountainToUpdate.longitude;
+      mountainToUpdate.description = body?.description ?? mountainToUpdate.description;
+
+      res.sendStatus(201)
+  } else {
+      res.sendStatus(404)
+  }
+
+
+})
+
+app.put("/mountains/:id", (req, res) => {
+  const mountain = findMountain(Number(req.params.id))
+
+  const body = req.body
+
+  if(mountain){
+    if(checkFullBody(body)){
+      mountain.name = body.name
+      mountain.elevation_meters = body.elevation_meters
+      mountain.latitude = body.latitude
+      mountain.longitude = body.longitude
+      mountain.description = body.description
+  
+      res.sendStatus(200)
+    } else{
+      res.status(406).send({message: "Need a full body"})
+    }   
+  } else {
+    res.sendStatus(404)
+  }
+
+})
+
+app.delete("/mountains/:id", (req, res) => {
+  const id = Number(req.params.id)
+  const mountainIndex = mountains.findIndex(mountain => mountain.id === id)
+
+  if(mountainIndex !== -1){
+
+    mountains.splice(mountainIndex, 1)
+    res.send(200)
+
+  } else {
+    res.sendStatus(404)
+  }
 })
 
 function findMountain(id){
@@ -24,6 +106,20 @@ function findMountain(id){
 
     return mountain
     } 
+    return null
+}
+
+function checkFullBody(body){
+  if (
+    body.name &&
+    body.elevation_meters &&
+    body.latitude &&
+    body.longitude &&
+    body.description
+  ){
+    return true
+  }
+  return false
 }
 
 const mountains = [
