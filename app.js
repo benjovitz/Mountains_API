@@ -3,6 +3,10 @@ const app = express()
 
 app.use(express.json())
 
+app.get("/", (req, res) => {
+  res.send({message: "This is a mountains api with data on famous mountains :)"})
+})
+
 app.get("/mountains", (req, res) => {
    res.send({data: mountains})
 })
